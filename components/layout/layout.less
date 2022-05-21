@@ -1,0 +1,40 @@
+@import '/styles/variables';
+
+.container-size(@width) {
+  max-width: @width;
+  margin: 0 auto;
+}
+
+.Layout {
+  position: relative;
+  min-height: 100vh;
+
+  &-header {
+    height: 70px;
+  }
+
+  &-headerContent {
+    .container-size(@max-width);
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 70px;
+  }
+
+  &-content {
+    background: @gray;
+    padding-bottom: 78px;
+  }
+
+  &-contentContainer {
+    .container-size(@max-width);
+    padding: 0 15px;
+  }
+
+  &-footer {
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+    width: 100%;
+  }
+}
