@@ -19,6 +19,9 @@ const withAntdLess = require('next-plugin-antd-less')
 module.exports = withAntdLess({
   modifyVars: themeVariables,
   lessVarsFilePathAppendToEndOfContent: false,
+  images: {
+    domains: ['rickandmortyapi.com', 'via.placeholder.com/']
+  },
   webpack(config) {
     return config
   }

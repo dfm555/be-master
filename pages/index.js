@@ -1,11 +1,11 @@
 import SearchComponent from 'components/search'
-import ListComponents from 'components/list'
+import ListComponent from 'components/list'
 
 export default function Home() {
   return (
     <>
       <SearchComponent />
-      <ListComponents />
+      <ListComponent />
     </>
   )
 }

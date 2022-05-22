@@ -1,5 +1,7 @@
 import Head from 'next/head'
 
+import { CharacterProvider } from 'context/characterContext'
+
 import Layout from 'components/layout'
 
 function MyApp({ Component, pageProps }) {
@@ -8,9 +10,11 @@ function MyApp({ Component, pageProps }) {
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <CharacterProvider>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </CharacterProvider>
     </>
   )
 }

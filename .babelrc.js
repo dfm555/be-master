@@ -10,7 +10,8 @@ module.exports = {
           components: './components',
           pages: './pages',
           public: './public',
-          store: './store'
+          context: './context',
+          utils: './utils'
         }
       }
     ],

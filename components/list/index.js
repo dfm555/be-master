@@ -1,3 +1,3 @@
-import { ListComponents } from './list'
+import { ListComponent } from './list'
 
-export default ListComponents
+export default ListComponent

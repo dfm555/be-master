@@ -1,5 +1,11 @@
-import { List, Avatar, Space, Skeleton, Divider } from 'antd'
-import { MessageOutlined, LikeOutlined, StarOutlined } from '@ant-design/icons'
+import React, { useCallback } from 'react'
+import Moment from 'moment'
+
+import { List, Avatar, Space } from 'antd'
+import { DesktopOutlined, CalendarOutlined } from '@ant-design/icons'
+
+import { useCharacters } from 'context/characterContext'
+import Image from 'next/image'
 
 const IconText = ({ icon, text }) => (
   <Space>
@@ -8,76 +14,74 @@ const IconText = ({ icon, text }) => (
   </Space>
 )
 
-const listData = []
-const loading = true
-
 require('./list.less')
 
-export function ListComponents() {
+export function ListComponent() {
+  const { info, characters, loading, pagination } = useCharacters()
+
+  const onPaginate = useCallback(
+    page => {
+      pagination(page)
+    },
+    [pagination]
+  )
   return (
-    <div className="ListComponents">
-      {!listData.length ? (
-        <Space
-          direction="vertical"
-          size={'small'}
-          style={{ display: 'flex' }}
-          split={<Divider type="horizontal" />}
-        >
-          <Skeleton loading={loading} active avatar />
-          <Skeleton loading={loading} active avatar />
-          <Skeleton loading={loading} active avatar />
-          <Skeleton loading={loading} active avatar />
-        </Space>
-      ) : (
-        <List
-          bordered
-          itemLayout="vertical"
-          size="large"
-          pagination={{
-            onChange: page => {
-              console.log(page)
-            },
-            pageSize: 3
-          }}
-          dataSource={listData}
-          renderItem={item => (
-            <List.Item
-              key={item.title}
-              actions={[
-                <IconText
-                  icon={StarOutlined}
-                  text="156"
-                  key="list-vertical-star-o"
-                />,
-                <IconText
-                  icon={LikeOutlined}
-                  text="156"
-                  key="list-vertical-like-o"
-                />,
-                <IconText
-                  icon={MessageOutlined}
-                  text="2"
-                  key="list-vertical-message"
-                />
-              ]}
-              extra={
-                <img
-                  width={272}
-                  alt="logo"
-                  src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
-                />
-              }
-            >
-              <List.Item.Meta
-                avatar={<Avatar src={item.avatar} />}
-                title={<a href={item.href}>{item.title}</a>}
-                description={item.description}
+    <div className="ListComponent">
+      <List
+        itemLayout="vertical"
+        size="large"
+        loading={loading}
+        pagination={{
+          onChange: page => onPaginate(page),
+          pageSize: 20,
+          total: info?.count || 0,
+          showSizeChanger: false
+        }}
+        dataSource={characters || []}
+        renderItem={item => (
+          <List.Item
+            key={item.title}
+            actions={[
+              <IconText
+                icon={DesktopOutlined}
+                text={`${item.episode.length} Episodes`}
+                key="DesktopOutlined"
+              />,
+              <IconText
+                icon={CalendarOutlined}
+                text={`CreatedAt ${Moment(item.created).format('DD/MMM/YYYY')}`}
+                key="DesktopOutlined"
               />
-              {item.content}
-            </List.Item>
-          )}
-        />
-      )}
+            ]}
+            extra={
+              <Image
+                width={100}
+                height={100}
+                alt="logo"
+                src={item.image}
+                placeholder={'blur'}
+                blurDataURL="https://via.placeholder.com/100x100?text=%3Cimage/%3E"
+              />
+            }
+          >
+            <List.Item.Meta
+              avatar={<Avatar src={item.image} size={'large'} />}
+              title={<span className="ListComponent-title">{item.name}</span>}
+              description={
+                <ul className="ListComponent-description">
+                  <li>Status: {item.status}</li>
+                  <li>Species: {item.species}</li>
+                  <li>Type: {item.type}</li>
+                  <li>Gender: {item.gender}</li>
+                  <li>Origin: {item.origin.name}</li>
+                  <li>Location: {item.location.name}</li>
+                </ul>
+              }
+            />
+            {item.content}
+          </List.Item>
+        )}
+      />
     </div>
   )
 }

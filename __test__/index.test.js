@@ -1,15 +1,17 @@
 import { render, screen } from '@testing-library/react'
-import Home from '../pages/index'
+import Home from 'pages/index'
 import '@testing-library/jest-dom'
 
 describe('Home', () => {
-  it('renders a heading', () => {
+  it('renders a form', () => {
     render(<Home />)
 
-    const heading = screen.getByRole('heading', {
-      name: /welcome to next\.js!/i,
-    })
+    const inputNameNode = screen.getByPlaceholderText('Name', {})
+    const inputSpeciesNode = screen.getByPlaceholderText('Species', {})
+    const inputTypeNode = screen.getByPlaceholderText('Type', {})
 
-    expect(heading).toBeInTheDocument()
+    expect(inputNameNode).toBeInTheDocument()
+    expect(inputSpeciesNode).toBeInTheDocument()
+    expect(inputTypeNode).toBeInTheDocument()
   })
 })
